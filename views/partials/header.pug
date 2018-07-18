@@ -1,0 +1,14 @@
+.navbar.navbar-light.fixed-top.navbar-expand-md
+  .container
+    a.navbar-brand(href='/')
+      i.fas.fa-cube
+      | TCS - Atividade Prática
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      span.sr-only Toggle navigation
+      span.navbar-toggler-icon
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li.nav-item(class=(title === 'Home') ? 'active' : undefined)
+          a.nav-link(href='/') Home
+        li.nav-item(class=(title === 'Status') ? 'active' : undefined)
+          a.nav-link(href='/status') Status

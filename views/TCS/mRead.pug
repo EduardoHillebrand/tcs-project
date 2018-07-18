@@ -1,0 +1,53 @@
+extends ../layout
+
+block content
+  h1 Máquinas 
+  p.lead Lista
+  a.btn.btn-success(href='/c/', role='button') Cadastrar +
+  .float-right
+    p frequencia dos testes(segundos): 
+      input(type='number' value='5' id='seconds')
+      button(id='alterar') alterar
+  hr
+  .row
+    each val in maquinas
+      .col-md-3
+        h2 #{val.nome}
+        p(class='maq-'+val._id) status: #{val.status || '--'}
+        p codigo: #{val.codigo || val._id}
+        p
+          a.btn.btn-success(href='/u/'+val._id, role='button') Editar »
+          a.btn.btn-danger.float-right(href='/d/'+val._id, role='button') Excluir »
+    else
+      .col-md-12.text-center
+        h2 Nenhuma maquina cadastrada
+  script.
+    $(function(){
+      var freq = 5*1000;
+
+      var updateInterval = false;
+      
+      $('#alterar').click(function(){
+        freq = $('#seconds').val()*1000;
+        if(updateInterval) clearInterval(updateInterval);
+        updateInterval = setInterval(function(){
+          $.get("/simulador/setall", function(data, status){
+            console.log(status);              
+          });
+        },freq);
+      })
+
+      setInterval(function(){
+        $.get("/simulador/getall", function(data, status){
+
+            var obj = data
+
+            for (var i = 0; i < obj.length; i++) {
+              $('.maq-'+obj[i].m).html(obj[i].s);
+            }
+        });
+      },1000);
+
+      $('#alterar').click();
+      
+    });

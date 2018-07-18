@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1 Máquinas
+  p.lead Inserir
+  hr
+  form.row(action="" method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .col-md-12
+      p Nome
+      p 
+        input(type='text' name='nome')
+    .col-md-12
+      button.btn.btn-success(role='button') Salvar »
+    

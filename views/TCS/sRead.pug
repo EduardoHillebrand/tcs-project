@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  h1 Status
+  p.lead Lista
+  a.btn.btn-success(href='/s/c/', role='button') Cadastrar +
+  hr
+  .row
+    each val in status
+      .col-md-3
+        h2 #{val.nome}
+        p codigo: #{val.codigo || val._id}
+        p
+          a.btn.btn-success(href='/s/u/'+val._id, role='button') Editar »
+          a.btn.btn-danger.float-right(href='/s/d/'+val._id, role='button') Excluir »
+    else
+      .col-md-12.text-center
+        h2 Nenhum status cadastrado
