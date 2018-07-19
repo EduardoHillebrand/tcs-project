@@ -92,7 +92,7 @@ exports.sCreatePost = (req, res) => {
 exports.sUpdate = (req, res) => {
 	modelStatus.get(req.params.cod,function(mData,err,context) {
 	  	res.render('TCS/sUpdate', {
-	    	title: 'Home',
+	    	title: 'Status',
 	    	data: mData
 	  	});
   	})
