@@ -11,7 +11,7 @@ block content
   hr
   .row
     each val in maquinas
-      .col-md-3
+      .col-md-3.border.rounded
         h2 #{val.nome}
         p(class='maq-'+val._id) status: #{val.status || '--'}
         p codigo: #{val.codigo || val._id}
@@ -25,17 +25,25 @@ block content
     $(function(){
       var freq = 5*1000;
 
-      var updateInterval = false;
-      
       $('#alterar').click(function(){
         freq = $('#seconds').val()*1000;
-        if(updateInterval) clearInterval(updateInterval);
-        updateInterval = setInterval(function(){
-          $.get("/simulador/setall", function(data, status){
-            console.log(status);              
-          });
-        },freq);
+        
       })
+      
+      function timeout() {
+          setTimeout(function () {
+            $.get("/simulador/getLast", function(data, status){
+
+              var machine = data.m;
+              var stt = data.s[Math.floor(Math.random()*data.s.length)]
+
+              $.get("/simulador/setone/"+machine+"/"+stt, function(data, status){
+               console.log(data);
+              });
+            });
+            timeout();
+          }, freq);
+      }
 
       setInterval(function(){
         $.get("/simulador/getall", function(data, status){
@@ -48,6 +56,6 @@ block content
         });
       },1000);
 
-      $('#alterar').click();
+      timeout();
       
     });

@@ -19,6 +19,12 @@ StatusSchema.statics.get = function(id,callback, context) {
     });
 };
 
+StatusSchema.statics.getByCod = function(id,callback, context) {
+    this.findOne({codigo: id}, function (err, doc) {
+       callback(doc,err,context);
+    });
+};
+
 StatusSchema.statics.add = function(nome, codigo, callback, context) {
     var newSta = new this({nome:nome, codigo:codigo})
     newSta.save(function (err, mData) {

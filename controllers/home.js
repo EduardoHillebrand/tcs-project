@@ -91,7 +91,7 @@ exports.sCreatePost = (req, res) => {
 
 exports.sUpdate = (req, res) => {
 	modelStatus.get(req.params.cod,function(mData,err,context) {
-	  	res.render('TCS/mUpdate', {
+	  	res.render('TCS/sUpdate', {
 	    	title: 'Home',
 	    	data: mData
 	  	});
@@ -115,6 +115,8 @@ exports.sDelete = (req, res) => {
   })
 };
 
+/* status/maquina rotas*/
+
 exports.statusMaquinaGet = (req, res) => {
 	modelStatus.getAll(function(status, err) {
 		var objStatus = {};
@@ -132,7 +134,7 @@ exports.statusMaquinaGet = (req, res) => {
   	});
 };
 
-exports.statusMaquinaUpdate = (req, res) => {
+exports.statusMaquinaUpdateAll = (req, res) => {
 	modelStatus.getAll(function(status, err) {
 		var arrStatus = [];
 		for (var i = 0; i < status.length; i++) {
@@ -148,6 +150,44 @@ exports.statusMaquinaUpdate = (req, res) => {
   			res.json({status:'ok'});
   		},arrStatus);
   	});
+};
+
+exports.maqStaUpdOne = (req, res) => {
+	modelStatus.getByCod(req.params.sta,function(status, err) {
+		if(status){
+	  		modelMaquina.getByCod(req.params.maq,function(maquina, err) {
+	  			if(maquina){
+	  				maquina.status = status.codigo;
+	  				maquina.save(function(err,nObj) {
+	  					res.json({status:'ok', desc:"Status alterado"});
+	  				})
+
+	  			} else {
+	  				res.json({status:'err', desc: "Código da Maquina não encontrado", err: "002"});
+	  			}
+	  		});
+	  	} else {
+	  		res.json({status:'err', desc: "Código do Status não encontrado", err: "001"});
+	  	}
+  	});
+};
+
+exports.maqGetLastUpd = (req, res) => {
+	modelStatus.getAll(function(status, err) {
+		var arrStatus = [];
+		for (var i = 0; i < status.length; i++) {
+			arrStatus.push(status[i].codigo);
+		}
+
+		modelMaquina.getLast(function(maquina, err) {
+			if(maquina){
+				res.json({ m:maquina.codigo, s: arrStatus });
+			} else {
+				res.json({status:'err', desc: "Maquina não encontrada", err: "002"});
+			}
+		});
+	})
+
 };
 
 

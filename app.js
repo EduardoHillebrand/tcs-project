@@ -149,8 +149,11 @@ app.post('/s/u/:cod', homeController.sUpdatePost);
 app.get('/s/d/:cod', homeController.sDelete);
 
 /* Rotas de simulador */
-app.get('/simulador/getall', homeController.statusMaquinaGet);
-app.get('/simulador/setall', homeController.statusMaquinaUpdate);
+app.get('/simulador/getall', homeController.statusMaquinaGet); //recupera dados de status de cada maquina 
+app.get('/simulador/setall', homeController.statusMaquinaUpdateAll); //Atualiza todas as maquinas com status aleatórios de uma vez
+
+app.get('/simulador/setone/:maq/:sta', homeController.maqStaUpdOne); //Atualiza maquina selecionada com status informado
+app.get('/simulador/getLast', homeController.maqGetLastUpd); //recupera maquina atualizada por ultimo
 
 
 
